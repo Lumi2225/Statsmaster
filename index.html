@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Discord Account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0b10;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.card {
+  background: #111;
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  width: 320px;
+}
+img {
+  border-radius: 50%;
+  width: 96px;
+}
+button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #5865f2;
+  color: white;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="card" id="app">
+  <button onclick="login()">Se connecter avec Discord</button>
+</div>
+
+<script>
+async function login() {
+  location.href = "/api/auth";
+}
+
+async function loadUser() {
+  const res = await fetch("/api/me");
+  if (!res.ok) return;
+
+  const u = await res.json();
+  document.getElementById("app").innerHTML = `
+    <img src="https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.png?size=128">
+    <h2>${u.username}</h2>
+    <p>ID: ${u.id}</p>
+  `;
+}
+
+loadUser();
+</script>
+
+</body>
+</html>
